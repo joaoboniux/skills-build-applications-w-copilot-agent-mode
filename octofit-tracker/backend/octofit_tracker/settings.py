@@ -7,9 +7,10 @@ SECRET_KEY = 'django-insecure-octofit-tracker-secret-key'
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
-if os.environ.get('CODESPACE_NAME'):
-    ALLOWED_HOSTS.append(f"{os.environ.get('CODESPACE_NAME')}-8000.app.github.dev")
+
+# Permitir todos os hosts
+ALLOWED_HOSTS = ['*']
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -18,9 +19,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'djongo',
+    'corsheaders',
+    'octofit_tracker',
 ]
 
+
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -50,12 +57,30 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'octofit_tracker.wsgi.application'
 
+
+# Configuração do Djongo para o banco octofit_db
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
-        'NAME': 'octofit_tracker',
+        'NAME': 'octofit_db',
+        'ENFORCE_SCHEMA': False,
+        'CLIENT': {
+            'host': 'localhost',
+            'port': 27017,
+        }
     }
 }
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ],
+}
+
+# Configuração CORS
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_HEADERS = ['*']
+CORS_ALLOW_METHODS = ['*']
 
 AUTH_PASSWORD_VALIDATORS = [
     {
