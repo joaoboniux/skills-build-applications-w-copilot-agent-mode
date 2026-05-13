@@ -6,12 +6,12 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 // Defina a variável de ambiente para o endpoint do backend
-const codespaceName = process.env.REACT_APP_CODESPACE_NAME;
-const protocol = window.location.protocol;
-const backendUrl = codespaceName
-  ? `${protocol}//${codespaceName}-8000.app.github.dev`
-  : '';
-process.env.REACT_APP_CODESPACE_URL = backendUrl;
+//const codespaceName = process.env.REACT_APP_CODESPACE_NAME;
+//const protocol = window.location.protocol;
+//const backendUrl = codespaceName
+//  ? `${protocol}//${codespaceName}-8000.app.github.dev`
+//  : '';
+//process.env.REACT_APP_CODESPACE_URL = backendUrl;
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
