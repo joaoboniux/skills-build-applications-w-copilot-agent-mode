@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { getApiBaseUrl } from '../config/api';
 
 const renderValue = (value) => {
   if (value === null || value === undefined) return '';
@@ -13,13 +12,16 @@ const Users = () => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
-  const endpoint = `${getApiBaseUrl()}/api/users/`;
+  const endpoint = process.env.REACT_APP_CODESPACE_NAME
+    ? `https://${process.env.REACT_APP_CODESPACE_NAME}-8000.app.github.dev/api/users/`
+    : 'http://localhost:8000/api/users/';
 
   const loadUsers = useCallback(() => {
     console.log('Fetching Users from:', endpoint);
     fetch(endpoint)
       .then((res) => res.json())
       .then((data) => {
+        console.log('Users payload:', data);
         const results = data.results || data;
         setUsers(results);
       })

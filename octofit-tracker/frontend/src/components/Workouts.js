@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { getApiBaseUrl } from '../config/api';
 
 const renderValue = (value) => {
   if (value === null || value === undefined) return '';
@@ -13,13 +12,16 @@ const Workouts = () => {
   const [selectedWorkout, setSelectedWorkout] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
-  const endpoint = `${getApiBaseUrl()}/api/workouts/`;
+  const endpoint = process.env.REACT_APP_CODESPACE_NAME
+    ? `https://${process.env.REACT_APP_CODESPACE_NAME}-8000.app.github.dev/api/workouts/`
+    : 'http://localhost:8000/api/workouts/';
 
   const loadWorkouts = useCallback(() => {
     console.log('Fetching Workouts from:', endpoint);
     fetch(endpoint)
       .then((res) => res.json())
       .then((data) => {
+        console.log('Workouts payload:', data);
         const results = data.results || data;
         setWorkouts(results);
       })

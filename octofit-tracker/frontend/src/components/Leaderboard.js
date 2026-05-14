@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { getApiBaseUrl } from '../config/api';
 
 const renderValue = (value) => {
   if (value === null || value === undefined) return '';
@@ -13,13 +12,16 @@ const Leaderboard = () => {
   const [selectedLeader, setSelectedLeader] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
-  const endpoint = `${getApiBaseUrl()}/api/leaderboard/`;
+  const endpoint = process.env.REACT_APP_CODESPACE_NAME
+    ? `https://${process.env.REACT_APP_CODESPACE_NAME}-8000.app.github.dev/api/leaderboard/`
+    : 'http://localhost:8000/api/leaderboard/';
 
   const loadLeaderboard = useCallback(() => {
     console.log('Fetching Leaderboard from:', endpoint);
     fetch(endpoint)
       .then((res) => res.json())
       .then((data) => {
+        console.log('Leaderboard payload:', data);
         const results = data.results || data;
         setLeaders(results);
       })
