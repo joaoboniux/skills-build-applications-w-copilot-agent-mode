@@ -14,6 +14,7 @@ CODESPACE_NAME = os.environ.get('CODESPACE_NAME')
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 if CODESPACE_NAME:
     ALLOWED_HOSTS.append(f'{CODESPACE_NAME}-8000.app.github.dev')
+ALLOWED_HOSTS.extend(['0.0.0.0', '.app.github.dev'])
 
 
 INSTALLED_APPS = [
@@ -29,6 +30,7 @@ INSTALLED_APPS = [
     'octofit_tracker',
 ]
 
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',

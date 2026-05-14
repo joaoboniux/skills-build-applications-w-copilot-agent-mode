@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { getApiBaseUrl } from '../config/api';
 
 const renderValue = (value) => {
   if (value === null || value === undefined) return '';
@@ -12,10 +13,7 @@ const Teams = () => {
   const [selectedTeam, setSelectedTeam] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
-  const codespaceName = window.location.hostname.split('-3000')[0];
-  const protocol = window.location.protocol;
-  const backendUrl = `${protocol}//${codespaceName}-8000.app.github.dev`;
-  const endpoint = `${backendUrl}/api/teams/`;
+  const endpoint = `${getApiBaseUrl()}/api/teams/`;
 
   const loadTeams = useCallback(() => {
     console.log('Fetching Teams from:', endpoint);

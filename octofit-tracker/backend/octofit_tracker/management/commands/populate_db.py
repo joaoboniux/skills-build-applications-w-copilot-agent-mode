@@ -1,34 +1,10 @@
 from django.core.management.base import BaseCommand
 from django.contrib.auth import get_user_model
-from djongo import models
 
-class Team(models.Model):
-    name = models.CharField(max_length=100, unique=True)
-    class Meta:
-        app_label = 'octofit_tracker'
-
-class Activity(models.Model):
-    user = models.CharField(max_length=100)
-    team = models.CharField(max_length=100)
-    type = models.CharField(max_length=100)
-    duration = models.IntegerField()
-    class Meta:
-        app_label = 'octofit_tracker'
-
-class Leaderboard(models.Model):
-    team = models.CharField(max_length=100)
-    points = models.IntegerField()
-    class Meta:
-        app_label = 'octofit_tracker'
-
-class Workout(models.Model):
-    name = models.CharField(max_length=100)
-    description = models.TextField()
-    suggested_for = models.CharField(max_length=100)
-    class Meta:
-        app_label = 'octofit_tracker'
+from octofit_tracker.models import Activity, Leaderboard, Team, Workout
 
 User = get_user_model()
+
 
 class Command(BaseCommand):
     help = 'Populate the octofit_db database with test data'
@@ -42,18 +18,16 @@ class Command(BaseCommand):
         Workout.objects.all().delete()
 
         # Criar times
-        marvel = Team.objects.create(name='Marvel')
-        dc = Team.objects.create(name='DC')
+        Team.objects.create(name='Marvel')
+        Team.objects.create(name='DC')
 
         # Criar usuários
-        users = [
-            User.objects.create_user(username='superman', email='superman@dc.com', password='1234'),
-            User.objects.create_user(username='batman', email='batman@dc.com', password='1234'),
-            User.objects.create_user(username='wonderwoman', email='wonderwoman@dc.com', password='1234'),
-            User.objects.create_user(username='spiderman', email='spiderman@marvel.com', password='1234'),
-            User.objects.create_user(username='ironman', email='ironman@marvel.com', password='1234'),
-            User.objects.create_user(username='captainmarvel', email='captainmarvel@marvel.com', password='1234'),
-        ]
+        User.objects.create_user(username='superman', email='superman@dc.com', password='1234')
+        User.objects.create_user(username='batman', email='batman@dc.com', password='1234')
+        User.objects.create_user(username='wonderwoman', email='wonderwoman@dc.com', password='1234')
+        User.objects.create_user(username='spiderman', email='spiderman@marvel.com', password='1234')
+        User.objects.create_user(username='ironman', email='ironman@marvel.com', password='1234')
+        User.objects.create_user(username='captainmarvel', email='captainmarvel@marvel.com', password='1234')
 
         # Atividades
         Activity.objects.create(user='superman', team='DC', type='Corrida', duration=30)
